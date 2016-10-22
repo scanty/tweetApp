@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<% include ../partials/header.ejs %>
+
+</head>
+
+<body>
+<% include ../partials/nav.ejs %>
+
+
+<script>
+var lastQueryTimeStamp = -1;
+var lastTweetId = 0;
+var userInput = "";
+var tweetCount = 0;
+
+function doQuery(inp) {
+    if(userInput.length != 0) {
+        $.ajax({
+            url: '/tweetList?inp='+inp+'&tag='+ userInput +"&tweetid="+lastTweetId, 
+            success: function(data) {
+                if(data.count > 0) {
+                    data.tweets.forEach(function(row){
+                        lastTweetId = row.tweetid;
+                        var tabRow = "<tr> <td>" +  row.tweettimestamp + "</td>" +
+                                    "<td>"+ row.tweettext + "</td> </tr>";
+                        $("table#resultTable tr:first").after(tabRow);
+                    });
+                    $("div#resultDiv").css('visibility','visible'); 
+                }
+                tweetCount += data.count;
+                $("div#resText").text('Tag: '+ data.tag + ", Count: " + tweetCount );
+            }
+            
+        });
+    }
+}
+
+function buttonClick() {
+    $("div#resSummary").css('visibility','visible');
+    
+    userInput = document.getElementById("tagBox").value;
+    lastQueryTimeStamp = (new Date).getTime();
+    lastTweetId = 0;
+    tweetCount = 0;
+    $("div#resultDiv").css('visibility','hidden');
+    $("table#resultTable").find("tr:gt(0)").remove();
+    doQuery("manual");
+}
+ 
+function queryFunction() {
+    var currentTime = (new Date).getTime();
+    if( (currentTime - lastQueryTimeStamp) >= 5000 ) {
+        // periodic
+        doQuery("periodic");
+    }
+    setTimeout(queryFunction, 5000);
+}
+
+$(document).ready(function() {
+  setTimeout(queryFunction, 5000);
+});
+</script>
+    <div class="container">
+        <h4>Search a tag</h4>
+        <input id="tagBox" name="tagBox" />
+        <input type="button" onclick="buttonClick()" value="Go" />
+        <div id = "resSummary" style="visibility:hidden">
+            <b>Search Results: </b>
+            <div id ="resText"/>
+        </div>
+        <div id="resultDiv" style="visibility:hidden">
+            <br/>
+            <table id="resultTable" name="resultTable" class="responstable" >
+                <th style="width:25%">Time</th>
+                <th>Tweet</th>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

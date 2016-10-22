@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/min_header.ejs %>
+</head>
+
+<body>
+
+<% include ../partials/nav.ejs %>
+<div class="container">
+<h3>Database Views</h3>
+
+<h4>tbl_HashTags</h4>
+<table class="responstable" style="width:50%">
+<th style="width:10%">TagId</th> <th>Tag Text</th>
+    <% tags.forEach(function(r) { %>
+        <tr>
+            <td><%= r.tagid %> </td>
+            <td><%= r.hashtag %></td>
+        </tr>
+    <% }); %>
+</table>
+<br><br>
+
+<h4>tbl_Tweets</h4>
+<table class="responstable" style="width:90%">
+<th style="width:8%">TweetId</th> <th style="width:30%">Timestamp</th> <th>Tweet</th>
+    <% tweets.forEach(function(r) { %>
+        <tr>
+            <td><%= r.tweetid %> </td>
+            <td><%= r.tweettimestamp %></td>
+            <td><%= r.tweettext %></td>
+        </tr>
+    <% }); %>
+</table>
+<br><br>
+
+<h4>tbl_HashTagsTweet</h4>
+<table class="responstable" style="width:20%">
+<th>TagId</th> <th>TweetId</th>
+    <% hashTweets.forEach(function(r) { %>
+        <tr>
+            <td><%= r.tagid %> </td>
+            <td><%= r.tweetid %></td>
+        </tr>
+    <% }); %>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body>
+
+<% include ../partials/nav.ejs %>
+<script>
+
+function postTweet() {
+    var tweetText = $('input#tweetText').val();
+    $('input#tweetText').val('');
+    if(tweetText.length == 0) {
+        return;
+    }
+    $.post('/postTweet', {tweetText:tweetText}, function(data){
+        $('div#msgDiv').text(data.msg);
+    })
+}
+    
+</script>
+
+
+<div class="container">
+<h4>What's on your mind?</h4>
+<form action="">
+<input id="tweetText" name="tweetText"/>
+<input type="button" value="Tweet" onclick="postTweet()"/>
+</form>
+<h5><div id="msgDiv"></div></h5>
+</div>
+
+</body>
+</html>
