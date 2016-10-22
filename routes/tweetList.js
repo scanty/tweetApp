@@ -27,7 +27,7 @@ router.get('/tweetList', function(request, response) {
                     response.send(200, { error: err });
                 }
                 else {
-                    response.status(200,{ tag: tagText, tweets: result.rows, count: result.rows.length });
+                    response.send(200,{ tag: tagText, tweets: result.rows, count: result.rows.length });
                 }
             });
     });

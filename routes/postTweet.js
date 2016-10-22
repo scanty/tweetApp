@@ -72,7 +72,6 @@ function addTweetAndTags(tweetText, tagSet) {
                             addTagTweetRelation(client, res2.rows, tweetid);
                         }
                         done();
-                        return "mmmmm"
                     }
                 });
             }
