@@ -10,8 +10,8 @@
 <script>
 
 function postTweet() {
-    var tweetText = $('input#tweetText').val();
-    $('input#tweetText').val('');
+    var tweetText = $('textarea#tweetText').val();
+    $('textarea#tweetText').val('');
     if(tweetText.length == 0) {
         return;
     }
@@ -26,7 +26,8 @@ function postTweet() {
 <div class="container">
 <h4>What's on your mind?</h4>
 <form action="">
-<input id="tweetText" name="tweetText"/>
+<textarea id="tweetText" name="tweetText" cols="40" rows="3" maxlength="100"> </textArea>
+<br/>
 <input type="button" value="Tweet" onclick="postTweet()"/>
 </form>
 <h5><div id="msgDiv"></div></h5>
